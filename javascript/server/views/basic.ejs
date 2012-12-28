@@ -5,10 +5,26 @@
 
   </head>
   <body>
-    <div class="example">
+    <div class="toast example">
          <label class="example_label">Toast</label>
-         <button id="toast_short" class="btn">Short</button>
-         <button id="toast_long" class="btn">Long</button>
+         <button id="toast_short_btn" class="btn">Short</button>
+         <button id="toast_long_btn" class="btn">Long</button>
+	 <button id="toast_cancel_btn" class="btn">Cancel</button>
+    </div>
+    <div class="vibrator example">
+         <label class="example_label">Vibrator</label>
+         <button id="vibrator_btn" class="btn">Do</button>
+	 <button id="vibrator_cancel_btn" class="btn">Cancel</button>
+    </div>
+    <div class="wifi example">
+         <label class="example_label">WiFi</label>
+         <button id="wifi_enable_btn" class="btn">Enable</button>
+	 <button id="wifi_disable_btn" class="btn">Diable</button>
+	 <button id="wifi_mac_btn" class="btn">Mac Address</button>
+    </div>
+    <div class="notification example">
+         <label class="example_label">Notification</label>
+         <button id="notification_btn" class="btn">Notify</button>
     </div>
   </body>
   <%= include partials/script.ejs %>

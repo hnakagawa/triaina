@@ -7,73 +7,73 @@ import triaina.commons.workerservice.Job;
 import triaina.commons.workerservice.Worker;
 
 public class MockWorker implements Worker<MockJob> {
-	private Job job;
-	private int retry;
-	private int delayAmount;
-	private ResultReceiver receiver;
-	private Context context;
-	
-	public Context getContext() {
-		return context;
-	}
+    private Job job;
+    private int retry;
+    private int delayAmount;
+    private ResultReceiver receiver;
+    private Context context;
 
-	public void setContext(Context context) {
-		this.context = context;
-	}
+    public Context getContext() {
+        return context;
+    }
 
-	private Handler handler;
-	
-	@Override
-	public boolean process(MockJob job, int retry, int delayAmount, ResultReceiver receiver, Context context,
-			Handler handler) {
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
-		this.job = job;
-		this.retry = retry;
-		this.delayAmount = delayAmount;
-		this.receiver = receiver;
-		this.context = context;
-		this.handler = handler;
-		
-		return true;
-	}
-	
-	public Job getJob() {
-		return job;
-	}
+    private Handler handler;
 
-	public void setJob(Job job) {
-		this.job = job;
-	}
+    @Override
+    public boolean process(MockJob job, int retry, int delayAmount, ResultReceiver receiver, Context context,
+            Handler handler) {
 
-	public ResultReceiver getResultReceiver() {
-		return receiver;
-	}
-	
-	public void setResultReceiver(ResultReceiver receiver) {
-		this.receiver = receiver;
-	}
+        this.job = job;
+        this.retry = retry;
+        this.delayAmount = delayAmount;
+        this.receiver = receiver;
+        this.context = context;
+        this.handler = handler;
 
-	public Handler getHandler() {
-		return handler;
-	}
+        return true;
+    }
 
-	public void setHandler(Handler handler) {
-		this.handler = handler;
-	}
+    public Job getJob() {
+        return job;
+    }
 
-	public int getRetry() {
-		return retry;
-	}
+    public void setJob(Job job) {
+        this.job = job;
+    }
 
-	public void setRetry(int retry) {
-		this.retry = retry;
-	}
+    public ResultReceiver getResultReceiver() {
+        return receiver;
+    }
 
-	public int getDelayAmount() {
-		return delayAmount;
-	}
+    public void setResultReceiver(ResultReceiver receiver) {
+        this.receiver = receiver;
+    }
 
-	public void setDelayAmount(int delayAmount) {
-		this.delayAmount = delayAmount;
-	}
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public int getRetry() {
+        return retry;
+    }
+
+    public void setRetry(int retry) {
+        this.retry = retry;
+    }
+
+    public int getDelayAmount() {
+        return delayAmount;
+    }
+
+    public void setDelayAmount(int delayAmount) {
+        this.delayAmount = delayAmount;
+    }
 }

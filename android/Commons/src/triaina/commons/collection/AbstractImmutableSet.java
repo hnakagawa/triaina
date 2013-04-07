@@ -6,7 +6,6 @@ import java.util.Set;
 
 import triaina.commons.exception.UnsupportedRuntimeException;
 
-
 public abstract class AbstractImmutableSet<E> implements Set<E> {
     private Set<E> mSet;
 

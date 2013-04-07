@@ -4,6 +4,6 @@ import android.test.AndroidTestCase;
 
 public class TriainaApplicationTest extends AndroidTestCase {
 
-	public void testOnCreate() {
-	}
+    public void testOnCreate() {
+    }
 }

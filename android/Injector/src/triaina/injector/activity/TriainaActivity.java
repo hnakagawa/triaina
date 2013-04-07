@@ -1,12 +1,5 @@
 package triaina.injector.activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-
-import com.google.inject.Inject;
-
 import roboguice.activity.event.OnActivityResultEvent;
 import roboguice.activity.event.OnConfigurationChangedEvent;
 import roboguice.activity.event.OnContentChangedEvent;
@@ -25,19 +18,26 @@ import triaina.injector.TriainaInjectorFactory;
 import triaina.injector.activity.event.OnPostCreateEvent;
 import triaina.injector.activity.event.OnRestoreInstanceStateEvent;
 import triaina.injector.activity.event.OnSaveInstanceStateEvent;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+
+import com.google.inject.Inject;
 
 public class TriainaActivity extends Activity {
     protected EventManager mEventManager;
 
-    @Inject ContentViewListener ignored; // BUG find a better place to put this
+    @Inject
+    ContentViewListener ignored; // BUG find a better place to put this
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	TriainaInjector injector = TriainaInjectorFactory.getInjector(this);
-    	mEventManager = injector.getInstance(EventManager.class);
-    	injector.injectMembersWithoutViews(this);
-    	super.onCreate(savedInstanceState);
-    	mEventManager.fire(new OnCreateEvent(savedInstanceState));
+        TriainaInjector injector = TriainaInjectorFactory.getInjector(this);
+        mEventManager = injector.getInstance(EventManager.class);
+        injector.injectMembersWithoutViews(this);
+        super.onCreate(savedInstanceState);
+        mEventManager.fire(new OnCreateEvent(savedInstanceState));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class TriainaActivity extends Activity {
             mEventManager.fire(new OnDestroyEvent());
         } finally {
             try {
-            	TriainaInjectorFactory.destroyInjector(this);
+                TriainaInjectorFactory.destroyInjector(this);
             } finally {
                 super.onDestroy();
             }
@@ -99,13 +99,13 @@ public class TriainaActivity extends Activity {
     }
 
     @Override
-    protected void onSaveInstanceState (final Bundle outState) {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         mEventManager.fire(new OnSaveInstanceStateEvent(outState));
     }
 
     @Override
-    protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mEventManager.fire(new OnRestoreInstanceStateEvent(savedInstanceState));
     }

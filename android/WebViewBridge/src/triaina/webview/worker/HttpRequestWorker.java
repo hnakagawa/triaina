@@ -127,12 +127,10 @@ public class HttpRequestWorker extends AbstractNetworkWorker<HttpRequestJob> {
                 WorkerService.ACTION_CANCEL_TASK), 0);
         NotificationManager notificationManager = (NotificationManager) mContext
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new NotificationCompat.Builder(mContext)
-                .setContentTitle(params.getProgress())
-                .setContentText(params.getSummary())
-                .setSmallIcon(android.R.drawable.stat_sys_upload).setTicker(params.getProgress())
-                .setContentIntent(pendingIntent)
-                .setOngoing(true).setWhen(System.currentTimeMillis()).getNotification();
+        Notification notification = new NotificationCompat.Builder(mContext).setContentTitle(params.getProgress())
+                .setContentText(params.getSummary()).setSmallIcon(android.R.drawable.stat_sys_upload)
+                .setTicker(params.getProgress()).setContentIntent(pendingIntent).setOngoing(true)
+                .setWhen(System.currentTimeMillis()).getNotification();
 
         notificationManager.notify(id, notification);
     }

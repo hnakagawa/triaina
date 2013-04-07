@@ -2,21 +2,21 @@ package triaina.commons.exception;
 
 public class SecurityRuntimeException extends CommonRuntimeException {
 
-	private static final long serialVersionUID = 6244026068714272574L;
+    private static final long serialVersionUID = 6244026068714272574L;
 
-	public SecurityRuntimeException() {
-		super();
-	}
+    public SecurityRuntimeException() {
+        super();
+    }
 
-	public SecurityRuntimeException(String detailMessage, Throwable throwable) {
-		super(detailMessage, throwable);
-	}
+    public SecurityRuntimeException(String detailMessage, Throwable throwable) {
+        super(detailMessage, throwable);
+    }
 
-	public SecurityRuntimeException(String detailMessage) {
-		super(detailMessage);
-	}
+    public SecurityRuntimeException(String detailMessage) {
+        super(detailMessage);
+    }
 
-	public SecurityRuntimeException(Throwable throwable) {
-		super(throwable);
-	}
+    public SecurityRuntimeException(Throwable throwable) {
+        super(throwable);
+    }
 }

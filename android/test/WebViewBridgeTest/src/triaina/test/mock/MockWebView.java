@@ -4,18 +4,18 @@ import android.content.Context;
 import android.webkit.WebView;
 
 public class MockWebView extends WebView {
-	private String loadedUrl;
+    private String loadedUrl;
 
-	public MockWebView(Context context) {
-		super(context);
-	}
+    public MockWebView(Context context) {
+        super(context);
+    }
 
-	@Override
-	public void loadUrl(String url) {
-		this.loadedUrl = url;
-	}
+    @Override
+    public void loadUrl(String url) {
+        this.loadedUrl = url;
+    }
 
-	public String getLoadedUrl() {
-		return loadedUrl;
-	}
+    public String getLoadedUrl() {
+        return loadedUrl;
+    }
 }

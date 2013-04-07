@@ -6,12 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 
 public final class BitmapUtils {
-    private BitmapUtils() {}
+    private BitmapUtils() {
+    }
 
     public static final int DEFAULT_QUALITY = 80;
     public static final CompressFormat DEFAULT_FORMAT = CompressFormat.JPEG;
 
-    public static byte[] toByteArray (Bitmap bitmap, CompressFormat format, int quality) {
+    public static byte[] toByteArray(Bitmap bitmap, CompressFormat format, int quality) {
         ByteArrayOutputStream out = null;
 
         try {
@@ -23,11 +24,11 @@ public final class BitmapUtils {
         }
     }
 
-    public static byte[] toByteArray (Bitmap bitmap) {
+    public static byte[] toByteArray(Bitmap bitmap) {
         return toByteArray(bitmap, DEFAULT_FORMAT, DEFAULT_QUALITY);
     }
 
-    public static void recycle (Bitmap bitmap) {
+    public static void recycle(Bitmap bitmap) {
         if (bitmap != null)
             bitmap.recycle();
     }

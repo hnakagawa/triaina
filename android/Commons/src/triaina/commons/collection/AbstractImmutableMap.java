@@ -6,7 +6,6 @@ import java.util.Set;
 
 import triaina.commons.exception.UnsupportedRuntimeException;
 
-
 public abstract class AbstractImmutableMap<K, V> implements Map<K, V> {
     private Map<K, V> mMap;
 

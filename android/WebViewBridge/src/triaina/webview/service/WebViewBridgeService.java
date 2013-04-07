@@ -4,14 +4,14 @@ import android.app.IntentService;
 import android.content.Intent;
 
 public class WebViewBridgeService extends IntentService {
-	private static final String TAG = WebViewBridgeService.class.getSimpleName();
+    private static final String TAG = WebViewBridgeService.class.getSimpleName();
 
-	public WebViewBridgeService() {
-		super(TAG);
-	}
+    public WebViewBridgeService() {
+        super(TAG);
+    }
 
-	@Override
-	protected void onHandleIntent(Intent intent) {
+    @Override
+    protected void onHandleIntent(Intent intent) {
 
-	}
+    }
 }

@@ -9,9 +9,9 @@ import android.view.View;
 public abstract class TriainaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	super.onCreate(savedInstanceState);
-    	TriainaInjector injector = TriainaInjectorFactory.getInjector(getActivity());
-    	injector.injectMembersWithoutViews(this);
+        super.onCreate(savedInstanceState);
+        TriainaInjector injector = TriainaInjectorFactory.getInjector(getActivity());
+        injector.injectMembersWithoutViews(this);
     }
 
     @Override

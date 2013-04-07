@@ -1,10 +1,6 @@
 package triaina.injector.activity;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceScreen;
+import javax.inject.Inject;
 
 import roboguice.activity.event.OnActivityResultEvent;
 import roboguice.activity.event.OnConfigurationChangedEvent;
@@ -26,14 +22,18 @@ import triaina.injector.TriainaInjectorFactory;
 import triaina.injector.activity.event.OnPostCreateEvent;
 import triaina.injector.activity.event.OnRestoreInstanceStateEvent;
 import triaina.injector.activity.event.OnSaveInstanceStateEvent;
-
-import javax.inject.Inject;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 
 public class TriainaPreferenceActivity extends PreferenceActivity {
     protected EventManager eventManager;
     protected PreferenceListener preferenceListener;
 
-    @Inject ContentViewListener ignored; // BUG find a better place to put this
+    @Inject
+    ContentViewListener ignored; // BUG find a better place to put this
 
     /** {@inheritDoc } */
     @Override
@@ -52,6 +52,7 @@ public class TriainaPreferenceActivity extends PreferenceActivity {
         eventManager.fire(new OnPostCreateEvent(savedInstanceState));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
         super.setPreferenceScreen(preferenceScreen);
@@ -92,7 +93,7 @@ public class TriainaPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent ) {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         eventManager.fire(new OnNewIntentEvent());
     }
@@ -120,13 +121,13 @@ public class TriainaPreferenceActivity extends PreferenceActivity {
     }
 
     @Override
-    protected void onSaveInstanceState (final Bundle outState) {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         eventManager.fire(new OnSaveInstanceStateEvent(outState));
     }
 
     @Override
-    protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         eventManager.fire(new OnRestoreInstanceStateEvent(savedInstanceState));
     }

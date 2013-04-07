@@ -8,30 +8,30 @@ import junit.framework.TestCase;
 
 public class FieldUtilsTest extends TestCase {
 
-	public void testSetNoException() throws Exception {
-		Field field = Aaa.class.getField("aaa");
-		Aaa a = new Aaa();
-		FieldUtils.setNoException(a, field, new Object());
-	}
+    public void testSetNoException() throws Exception {
+        Field field = Aaa.class.getField("aaa");
+        Aaa a = new Aaa();
+        FieldUtils.setNoException(a, field, new Object());
+    }
 
-	public void testSetAndGet() throws Exception {
-		Field field = Aaa.class.getField("aaa");
-		Aaa a = new Aaa();
-		FieldUtils.set(a, field, "test");
-		assertEquals("test", FieldUtils.get(a, field));
-	}
-	
-	public void testSetOnException() throws Exception {
-		try {
-			Field field = Aaa.class.getField("aaa");
-			Aaa a = new Aaa();
-			FieldUtils.set(a, field, new Object());
-			fail();
-		} catch (CommonRuntimeException exp) {
-		}
-	}
-	
-	static class Aaa {
-		public String aaa;
-	}
+    public void testSetAndGet() throws Exception {
+        Field field = Aaa.class.getField("aaa");
+        Aaa a = new Aaa();
+        FieldUtils.set(a, field, "test");
+        assertEquals("test", FieldUtils.get(a, field));
+    }
+
+    public void testSetOnException() throws Exception {
+        try {
+            Field field = Aaa.class.getField("aaa");
+            Aaa a = new Aaa();
+            FieldUtils.set(a, field, new Object());
+            fail();
+        } catch (CommonRuntimeException exp) {
+        }
+    }
+
+    static class Aaa {
+        public String aaa;
+    }
 }

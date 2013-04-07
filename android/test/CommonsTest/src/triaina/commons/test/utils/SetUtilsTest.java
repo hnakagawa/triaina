@@ -8,20 +8,20 @@ import junit.framework.TestCase;
 
 public class SetUtilsTest extends TestCase {
 
-	public void testToArrayAndAddAll() {
-		Set<String> set = new HashSet<String>();
-		set.add("a");
-		set.add("b");
-		set.add("c");
-		
-		String[] arr = SetUtils.toArray(set, String.class);
-		assertEquals(3, arr.length);
-	}
+    public void testToArrayAndAddAll() {
+        Set<String> set = new HashSet<String>();
+        set.add("a");
+        set.add("b");
+        set.add("c");
 
-	public void testAddAll() {
-		String[] arr = new String[]{"a", "b", "c"};
-		Set<String> set = new HashSet<String>();
-		SetUtils.addAll(set, arr);
-		assertEquals(3, set.size());
-	}
+        String[] arr = SetUtils.toArray(set, String.class);
+        assertEquals(3, arr.length);
+    }
+
+    public void testAddAll() {
+        String[] arr = new String[] { "a", "b", "c" };
+        Set<String> set = new HashSet<String>();
+        SetUtils.addAll(set, arr);
+        assertEquals(3, set.size());
+    }
 }

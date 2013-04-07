@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import triaina.commons.exception.IORuntimeException;
 
-
 public final class ZipUtils {
     public static final byte[] MAGIC_ENDSIG = new byte[] { 0x50, 0x4b, 0x05, 0x06 };
 

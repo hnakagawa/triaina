@@ -6,47 +6,47 @@ import triaina.commons.json.annotation.Exclude;
 import triaina.webview.entity.Result;
 
 public class NotificationResult implements Result {
-	private String mId;
+    private String mId;
 
-	public NotificationResult() {
-	}
-	
-	public NotificationResult(String id) {
-		mId = id;
-	}
+    public NotificationResult() {
+    }
 
-	public NotificationResult(Parcel source) {
-		mId = source.readString();
-	}
+    public NotificationResult(String id) {
+        mId = id;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(mId);
-	}
-	
-	public void setId(String id) {
-		mId = id;
-	}
-	
-	public String getId() {
-		return mId;
-	}
+    public NotificationResult(Parcel source) {
+        mId = source.readString();
+    }
 
-	@Exclude
-	public static final Parcelable.Creator<NotificationResult> CREATOR = new Parcelable.Creator<NotificationResult>() {
-		@Override
-		public NotificationResult createFromParcel(Parcel source) {
-			return new NotificationResult(source);
-		}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+    }
 
-		@Override
-		public NotificationResult[] newArray(int size) {
-			return new NotificationResult[size];
-		}
-	};
+    public void setId(String id) {
+        mId = id;
+    }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+    public String getId() {
+        return mId;
+    }
+
+    @Exclude
+    public static final Parcelable.Creator<NotificationResult> CREATOR = new Parcelable.Creator<NotificationResult>() {
+        @Override
+        public NotificationResult createFromParcel(Parcel source) {
+            return new NotificationResult(source);
+        }
+
+        @Override
+        public NotificationResult[] newArray(int size) {
+            return new NotificationResult[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }

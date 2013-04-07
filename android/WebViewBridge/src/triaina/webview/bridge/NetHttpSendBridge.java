@@ -18,7 +18,7 @@ import android.os.Handler;
 import android.webkit.CookieManager;
 
 public class NetHttpSendBridge implements BridgeLifecyclable {
-	@Inject
+    @Inject
     private Handler mHandler;
 
     @Inject
@@ -42,7 +42,7 @@ public class NetHttpSendBridge implements BridgeLifecyclable {
         job.setCookie(manager.getCookie(params.getUrl()));
         job.setParams(params);
         if (params.getNotification() != null)
-        	job.setNotificationId(new Random().nextInt());
+            job.setNotificationId(new Random().nextInt());
         return job;
     }
 

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import roboguice.inject.ContextScopedRoboInjector;
+import triaina.injector.TriainaInjector;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
@@ -18,114 +20,117 @@ import com.google.inject.Scope;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeConverterBinding;
 
-import triaina.injector.TriainaInjector;
-import roboguice.inject.ContextScopedRoboInjector;
-
 public class TriainaInjectorImpl implements TriainaInjector {
-	private ContextScopedRoboInjector mDelegate;
-	
-	public TriainaInjectorImpl(ContextScopedRoboInjector injector) {
-		mDelegate = injector;
-	}
-	
-	@Override
-	public Injector createChildInjector(Iterable<? extends Module> modules) {
-		return mDelegate.createChildInjector(modules);
-	}
+    private ContextScopedRoboInjector mDelegate;
 
-	@Override
-	public Injector createChildInjector(Module... modules) {
-		return mDelegate.createChildInjector(modules);
-	}
+    public TriainaInjectorImpl(ContextScopedRoboInjector injector) {
+        mDelegate = injector;
+    }
 
-	@Override
-	public <T> List<Binding<T>> findBindingsByType(TypeLiteral<T> type) {
-		return mDelegate.findBindingsByType(type);
-	}
+    @Override
+    public Injector createChildInjector(Iterable<? extends Module> modules) {
+        return mDelegate.createChildInjector(modules);
+    }
 
-	public Map<Key<?>, Binding<?>> getAllBindings() {
-		return mDelegate.getAllBindings();
-	}
+    @Override
+    public Injector createChildInjector(Module... modules) {
+        return mDelegate.createChildInjector(modules);
+    }
 
-	@Override
-	public <T> Binding<T> getBinding(Key<T> key) {
-		return mDelegate.getBinding(key);
-	}
+    @Override
+    public <T> List<Binding<T>> findBindingsByType(TypeLiteral<T> type) {
+        return mDelegate.findBindingsByType(type);
+    }
 
-	@Override
-	public <T> Binding<T> getBinding(Class<T> type) {
-		return mDelegate.getBinding(type);
-	}
+    public Map<Key<?>, Binding<?>> getAllBindings() {
+        return mDelegate.getAllBindings();
+    }
 
-	@Override
-	public Map<Key<?>, Binding<?>> getBindings() {
-		return mDelegate.getBindings();
-	}
+    @Override
+    public <T> Binding<T> getBinding(Key<T> key) {
+        return mDelegate.getBinding(key);
+    }
 
-	public <T> Binding<T> getExistingBinding(Key<T> key) {
-		return mDelegate.getExistingBinding(key);
-	}
+    @Override
+    public <T> Binding<T> getBinding(Class<T> type) {
+        return mDelegate.getBinding(type);
+    }
 
-	@Override
-	public <T> T getInstance(Key<T> key) {
-		return mDelegate.getInstance(key);
-	}
+    @Override
+    public Map<Key<?>, Binding<?>> getBindings() {
+        return mDelegate.getBindings();
+    }
 
-	@Override
-	public <T> T getInstance(Class<T> type) {
-		return mDelegate.getInstance(type);
-	}
+    public <T> Binding<T> getExistingBinding(Key<T> key) {
+        return mDelegate.getExistingBinding(key);
+    }
 
-	@Override
-	public <T> MembersInjector<T> getMembersInjector(Class<T> type) {
-		return mDelegate.getMembersInjector(type);
-	}
+    @Override
+    public <T> T getInstance(Key<T> key) {
+        return mDelegate.getInstance(key);
+    }
 
-	@Override
-	public <T> MembersInjector<T> getMembersInjector(TypeLiteral<T> typeLiteral) {
-		return mDelegate.getMembersInjector(typeLiteral);
-	}
+    @Override
+    public <T> T getInstance(Class<T> type) {
+        return mDelegate.getInstance(type);
+    }
 
-	@Override
-	public Injector getParent() {
-		return mDelegate.getParent();
-	}
+    @Override
+    public <T> MembersInjector<T> getMembersInjector(Class<T> type) {
+        return mDelegate.getMembersInjector(type);
+    }
 
-	@Override
-	public <T> Provider<T> getProvider(Key<T> key) {
-		return mDelegate.getProvider(key);
-	}
+    @Override
+    public <T> MembersInjector<T> getMembersInjector(TypeLiteral<T> typeLiteral) {
+        return mDelegate.getMembersInjector(typeLiteral);
+    }
 
-	@Override
-	public <T> Provider<T> getProvider(Class<T> type) {
-		return mDelegate.getProvider(type);
-	}
+    @Override
+    public Injector getParent() {
+        return mDelegate.getParent();
+    }
 
-	public Map<Class<? extends Annotation>, Scope> getScopeBindings() {
-		return mDelegate.getScopeBindings();
-	}
+    @Override
+    public <T> Provider<T> getProvider(Key<T> key) {
+        return mDelegate.getProvider(key);
+    }
 
-	public Set<TypeConverterBinding> getTypeConverterBindings() {
-		return mDelegate.getTypeConverterBindings();
-	}
+    @Override
+    public <T> Provider<T> getProvider(Class<T> type) {
+        return mDelegate.getProvider(type);
+    }
 
-	@Override
-	public void injectMembers(Object instance) {
-		mDelegate.injectMembers(instance);
-	}
+    public Map<Class<? extends Annotation>, Scope> getScopeBindings() {
+        return mDelegate.getScopeBindings();
+    }
 
-	@Override
-	public void injectMembersWithoutViews(Object instance) {
-		mDelegate.injectMembersWithoutViews(instance);
-	}
+    public Set<TypeConverterBinding> getTypeConverterBindings() {
+        return mDelegate.getTypeConverterBindings();
+    }
 
-	@Override
-	public void injectViewMembers(Activity activity) {
-		mDelegate.injectViewMembers(activity);
-	}
+    @Override
+    public void injectMembers(Object instance) {
+        mDelegate.injectMembers(instance);
+    }
 
-	@Override
-	public void injectViewMembers(Fragment fragment) {
-		mDelegate.injectViewMembers(fragment);
-	}
+    @Override
+    public void injectMembersWithoutViews(Object instance) {
+        mDelegate.injectMembersWithoutViews(instance);
+    }
+
+    @Override
+    public <T> T inject(T instance) {
+        mDelegate.injectMembers(instance);
+        return instance;
+    }
+
+    @Override
+    public void injectViewMembers(Activity activity) {
+        mDelegate.injectViewMembers(activity);
+    }
+
+    @Override
+    public void injectViewMembers(Fragment fragment) {
+        mDelegate.injectViewMembers(fragment);
+    }
 }

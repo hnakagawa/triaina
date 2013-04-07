@@ -5,7 +5,6 @@ import java.io.IOException;
 import triaina.commons.base64.Base64;
 import triaina.commons.exception.IORuntimeException;
 
-
 public final class Base64Utils {
     private Base64Utils() {
     }

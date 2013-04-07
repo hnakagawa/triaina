@@ -23,22 +23,23 @@ public abstract class AbstractIntentService extends Service implements IntentSer
 		mName = name;
 	}
 
-	/**
-	 * Sets intent redelivery preferences.  Usually called from the constructor
-	 * with your preferred semantics.
-	 *
-	 * <p>If enabled is true,
-	 * {@link #onStartCommand(Intent, int, int)} will return
-	 * {@link Service#START_REDELIVER_INTENT}, so if this process dies before
-	 * {@link #onHandleIntent(Intent)} returns, the process will be restarted
-	 * and the intent redelivered.  If multiple Intents have been sent, only
-	 * the most recent one is guaranteed to be redelivered.
-	 *
-	 * <p>If enabled is false (the default),
-	 * {@link #onStartCommand(Intent, int, int)} will return
-	 * {@link Service#START_NOT_STICKY}, and if the process dies, the Intent
-	 * dies along with it.
-	 */
+	    /**
+     * Sets intent redelivery preferences. Usually called from the constructor
+     * with your preferred semantics.
+     * 
+     * <p>
+     * If enabled is true, {@link #onStartCommand(Intent, int, int)} will return
+     * {@link Service#START_REDELIVER_INTENT}, so if this process dies before
+     * {@link #onHandleIntent(Intent)} returns, the process will be restarted
+     * and the intent redelivered. If multiple Intents have been sent, only the
+     * most recent one is guaranteed to be redelivered.
+     * 
+     * <p>
+     * If enabled is false (the default),
+     * {@link #onStartCommand(Intent, int, int)} will return
+     * {@link Service#START_NOT_STICKY}, and if the process dies, the Intent
+     * dies along with it.
+     */
 	public void setIntentRedelivery(boolean enabled) {
 		mRedelivery = enabled;
 	}

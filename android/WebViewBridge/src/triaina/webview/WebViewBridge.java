@@ -11,7 +11,7 @@ import triaina.commons.json.JSONConverter;
 import triaina.commons.utils.JSONObjectUtils;
 import triaina.commons.utils.UriUtils;
 import triaina.webview.DeviceBridgeProxy;
-import triaina.webview.config.BridgeObjectConfig;
+import triaina.webview.config.BridgeConfig;
 import triaina.webview.config.DomainConfig;
 import triaina.webview.entity.Error;
 import triaina.webview.entity.Params;
@@ -81,11 +81,11 @@ public class WebViewBridge extends WebView {
         return mDomainConfig;
     }
 
-    public void addBridgeObjectConfig(Object bridgeObject, BridgeObjectConfig config) {
-        addBridgeObjectConfig(bridgeObject, config, new Handler(getContext().getMainLooper()));
+    public void addBridgeWithConfig(Object bridgeObject, BridgeConfig config) {
+        addBridgeWithConfig(bridgeObject, config, new Handler(getContext().getMainLooper()));
     }
 
-    public void addBridgeObjectConfig(Object bridgeObject, BridgeObjectConfig config, Handler handler) {
+    public void addBridgeWithConfig(Object bridgeObject, BridgeConfig config, Handler handler) {
         mHandler = handler;
 
         if (mDeviceBridgeProxy == null) {
@@ -97,7 +97,7 @@ public class WebViewBridge extends WebView {
     }
 
     public void setNoPause(boolean noPause) {
-        mNoPause = noPause;   
+        mNoPause = noPause;
     }
 
     public void onPause() {
@@ -114,7 +114,7 @@ public class WebViewBridge extends WebView {
         return mDeviceBridgeProxy;
     }
 
-    public BridgeObjectConfig getBridgeConfigSet() {
+    public BridgeConfig getBridgeConfigSet() {
         return mDeviceBridgeProxy.getBridgeConfigSet();
     }
 
@@ -172,7 +172,8 @@ public class WebViewBridge extends WebView {
             String s = json.toString();
             Log.d(TAG, "Notify to Web with " + s);
 
-            String js = mHelper.makeJavaScript("WebBridge.notifyToWeb", URLEncoder.encode(s, "UTF-8").replace("+", "%20"));
+            String js = mHelper.makeJavaScript("WebBridge.notifyToWeb",
+                    URLEncoder.encode(s, "UTF-8").replace("+", "%20"));
 
             loadUrl(js);
             return js;// for test

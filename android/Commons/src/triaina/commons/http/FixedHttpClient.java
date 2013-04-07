@@ -30,35 +30,44 @@ public class FixedHttpClient {
         HttpClient client = AndroidHttpClient.newInstance(getUserAgentString());
         HttpConnectionParams.setStaleCheckingEnabled(client.getParams(), true);
         HttpProtocolParams.setUseExpectContinue(client.getParams(), false);
-        
+
         // and we need SSL connection bug workaround before Ice Cream Sandwich
         final int HONEYCOMB_MR2 = 13;
-        if (Build.VERSION.SDK_INT <= HONEYCOMB_MR2) 
+        if (Build.VERSION.SDK_INT <= HONEYCOMB_MR2)
             workAroundReverseDnsBugInHoneycombAndEarlier(client);
 
         return client;
     }
 
     private static void workAroundReverseDnsBugInHoneycombAndEarlier(HttpClient client) {
-        // Android had a bug where HTTPS made reverse DNS lookups (fixed in Ice Cream Sandwich) 
+        // Android had a bug where HTTPS made reverse DNS lookups (fixed in Ice
+        // Cream Sandwich)
         // http://code.google.com/p/android/issues/detail?id=13117
         SocketFactory socketFactory = new LayeredSocketFactory() {
             SSLSocketFactory delegate = SSLSocketFactory.getSocketFactory();
-            @Override public Socket createSocket() throws IOException {
+
+            @Override
+            public Socket createSocket() throws IOException {
                 return delegate.createSocket();
             }
-            @Override public Socket connectSocket(Socket sock, String host, int port,
-                    InetAddress localAddress, int localPort, HttpParams params) throws IOException {
+
+            @Override
+            public Socket connectSocket(Socket sock, String host, int port, InetAddress localAddress, int localPort,
+                    HttpParams params) throws IOException {
                 return delegate.connectSocket(sock, host, port, localAddress, localPort, params);
             }
-            @Override public boolean isSecure(Socket sock) throws IllegalArgumentException {
+
+            @Override
+            public boolean isSecure(Socket sock) throws IllegalArgumentException {
                 return delegate.isSecure(sock);
             }
-            @Override public Socket createSocket(Socket socket, String host, int port,
-                    boolean autoClose) throws IOException {
+
+            @Override
+            public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException {
                 injectHostname(socket, host);
                 return delegate.createSocket(socket, host, port, autoClose);
             }
+
             private void injectHostname(Socket socket, String host) {
                 try {
                     Field field = InetAddress.class.getDeclaredField("hostName");
@@ -68,17 +77,15 @@ public class FixedHttpClient {
                 }
             }
         };
-        client.getConnectionManager().getSchemeRegistry()
-                .register(new Scheme("https", socketFactory, 443));
+        client.getConnectionManager().getSchemeRegistry().register(new Scheme("https", socketFactory, 443));
     }
-    
+
     public static void setApplicationContext(Context applicationContext) {
         if (mApplicationContext == null) {
             mApplicationContext = applicationContext;
             try {
                 sUserAgent += "/"
-                        + applicationContext.getPackageManager().getPackageInfo(
-                                applicationContext.getPackageName(), 0).versionCode;
+                        + applicationContext.getPackageManager().getPackageInfo(applicationContext.getPackageName(), 0).versionCode;
             } catch (NameNotFoundException ignored) {
                 // this isn't much important, just ignore if the version could
                 // not be retrieved.
@@ -91,7 +98,8 @@ public class FixedHttpClient {
      * {@link HttpClient} intance for an argument. Otherwise,
      * {@link ClientConnectionManager} will be leaked.
      * 
-     * @param instance HttpClient
+     * @param instance
+     *            HttpClient
      */
     public static void closeInstance(HttpClient instance) {
         if (instance instanceof AndroidHttpClient) {
@@ -105,11 +113,10 @@ public class FixedHttpClient {
     }
 
     public static void setUserAgentString(String userAgent) {
-    	sUserAgent = userAgent;
+        sUserAgent = userAgent;
     }
-    
+
     public static String getUserAgentString() {
         return sUserAgent;
     }
 }
-

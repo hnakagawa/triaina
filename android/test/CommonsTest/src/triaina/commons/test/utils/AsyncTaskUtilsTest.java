@@ -1,4 +1,3 @@
-
 package triaina.commons.test.utils;
 
 import java.util.concurrent.CountDownLatch;
@@ -20,6 +19,7 @@ public class AsyncTaskUtilsTest extends AndroidTestCase {
         private final CountDownLatch checkLatch = new CountDownLatch(1);
         private final CountDownLatch endLatch = new CountDownLatch(1);
         public Handler mHandler;
+
         public void run() {
             Looper.prepare();
             theTask = new TestTask();
@@ -32,28 +32,36 @@ public class AsyncTaskUtilsTest extends AndroidTestCase {
             };
             Looper.loop();
         }
+
         public AsyncTask<Void, Void, Void> getTask() {
             return theTask;
         }
+
         public void startSync() throws InterruptedException {
             start();
             loadLatch.await(5000, TimeUnit.MILLISECONDS);
         }
+
         public void waitForStart() throws InterruptedException {
             startLatch.await(5000, TimeUnit.MILLISECONDS);
         }
+
         public boolean isStarted() {
             return startLatch.getCount() == 0;
         }
+
         public void checkPoint() {
             checkLatch.countDown();
         }
+
         public void waitForEnd() throws InterruptedException {
             endLatch.await(5000, TimeUnit.MILLISECONDS);
         }
+
         public boolean isEnded() {
             return endLatch.getCount() == 0;
         }
+
         private class TestTask extends AsyncTask<Void, Void, Void> {
             @Override
             protected Void doInBackground(Void... params) {
@@ -65,6 +73,7 @@ public class AsyncTaskUtilsTest extends AndroidTestCase {
                 }
                 return null;
             }
+
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
@@ -72,10 +81,10 @@ public class AsyncTaskUtilsTest extends AndroidTestCase {
             }
         };
     }
-    
+
     public void testIsRunning() {
         assertFalse("null is false", AsyncTaskUtils.isRunning(null));
-        
+
         PseudoActivity a = new PseudoActivity();
         try {
             a.startSync();
@@ -94,9 +103,9 @@ public class AsyncTaskUtilsTest extends AndroidTestCase {
         }
         assertTrue("the task has been started", a.isStarted());
         assertTrue("running", AsyncTaskUtils.isRunning(a.getTask()));
-        
+
         a.checkPoint();
-        
+
         // wait for the task ends
         try {
             a.waitForEnd();
@@ -104,14 +113,14 @@ public class AsyncTaskUtilsTest extends AndroidTestCase {
             fail("interrupted");
         }
         assertTrue("the task was finished", a.isEnded());
-        
+
         // probably some time required to change the state
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             fail("interrupted");
         }
-        
+
         assertFalse("finished", AsyncTaskUtils.isRunning(a.getTask()));
     }
 }

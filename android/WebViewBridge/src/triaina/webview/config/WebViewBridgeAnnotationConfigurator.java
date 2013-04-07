@@ -3,12 +3,12 @@ package triaina.webview.config;
 import java.io.File;
 import java.lang.reflect.Method;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import triaina.commons.exception.InvalidConfigurationRuntimeException;
 import triaina.commons.utils.ClassUtils;
+import triaina.injector.TriainaInjector;
 import triaina.webview.Callback;
-import triaina.webview.InjectorHelper;
 import triaina.webview.WebViewBridge;
 import triaina.webview.annotation.NoPause;
 import triaina.webview.annotation.Bridge;
@@ -34,201 +34,195 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 
-public class WebViewBridgeAnnotationConfigurator implements
-		WebViewBridgeConfigurator {
-	private static final String TAG = WebViewBridgeAnnotationConfigurator.class.getSimpleName();
+public class WebViewBridgeAnnotationConfigurator implements WebViewBridgeConfigurator {
+    private static final String TAG = WebViewBridgeAnnotationConfigurator.class.getSimpleName();
 
-	@Inject
-	private ConfigCache mConfigCache;
+    @Inject
+    private ConfigCache mConfigCache;
 
-	@Inject
-	private InjectorHelper mInjectorHelper;
+    @Inject
+    private TriainaInjector mInjector;
 
-	@Inject
-	private Context mContext;
+    @Inject
+    private Context mContext;
 
-	@Override
-	public WebViewBridge loadWebViewBridge(Activity activity) {
-		Class<?> clazz = activity.getClass();
-		LayoutConfig config = createLayoutConfig(clazz);
+    @Override
+    public WebViewBridge loadWebViewBridge(Activity activity) {
+        Class<?> clazz = activity.getClass();
+        LayoutConfig config = createLayoutConfig(clazz);
 
-		activity.setContentView(config.getLayoutId());
-		WebViewBridge webViewBridge = (WebViewBridge) activity
-				.findViewById(config.getWebViewBridgeId());
-		webViewBridge.setDomainConfig(createDomainConfig(clazz));
-		webViewBridge.setNoPause(hasNoPause(clazz));
+        activity.setContentView(config.getLayoutId());
+        WebViewBridge webViewBridge = (WebViewBridge) activity.findViewById(config.getWebViewBridgeId());
+        webViewBridge.setDomainConfig(createDomainConfig(clazz));
+        webViewBridge.setNoPause(hasNoPause(clazz));
 
-		return webViewBridge;
-	}
+        return webViewBridge;
+    }
 
-	@Override
-	public View loadInflatedView(Fragment fragment, LayoutInflater inflater,
-			ViewGroup container) {
-		Class<?> clazz = fragment.getClass();
-		LayoutConfig config = createLayoutConfig(clazz);
-		return inflater.inflate(config.getLayoutId(), container, false);
-	}
+    @Override
+    public View loadInflatedView(Fragment fragment, LayoutInflater inflater, ViewGroup container) {
+        Class<?> clazz = fragment.getClass();
+        LayoutConfig config = createLayoutConfig(clazz);
+        return inflater.inflate(config.getLayoutId(), container, false);
+    }
 
-	@Override
-	public WebViewBridge loadWebViewBridge(Fragment fragment, View inflatedView) {
-		Class<?> clazz = fragment.getClass();
-		LayoutConfig config = createLayoutConfig(clazz);
+    @Override
+    public WebViewBridge loadWebViewBridge(Fragment fragment, View inflatedView) {
+        Class<?> clazz = fragment.getClass();
+        LayoutConfig config = createLayoutConfig(clazz);
 
-		WebViewBridge webViewBridge = (WebViewBridge) inflatedView.findViewById(config.getWebViewBridgeId());
-		webViewBridge.setDomainConfig(createDomainConfig(clazz));
-		webViewBridge.setNoPause(hasNoPause(clazz));
+        WebViewBridge webViewBridge = (WebViewBridge) inflatedView.findViewById(config.getWebViewBridgeId());
+        webViewBridge.setDomainConfig(createDomainConfig(clazz));
+        webViewBridge.setNoPause(hasNoPause(clazz));
 
-		return webViewBridge;
-	}
+        return webViewBridge;
+    }
 
-	private LayoutConfig createLayoutConfig(Class<?> clazz) {
-		LayoutConfig config = mConfigCache.getLayoutConfig(clazz);
+    private LayoutConfig createLayoutConfig(Class<?> clazz) {
+        LayoutConfig config = mConfigCache.getLayoutConfig(clazz);
 
-		if (config == null) {
-			Log.d(TAG, "Miss cache layout config");
+        if (config == null) {
+            Log.d(TAG, "Miss cache layout config");
 
-			Layout layoutAnn = (Layout) clazz.getAnnotation(Layout.class);
-			if (layoutAnn == null) {
-				throw new InvalidConfigurationRuntimeException(
-						"Must be defined as use layout");
-			}
+            Layout layoutAnn = (Layout) clazz.getAnnotation(Layout.class);
+            if (layoutAnn == null) {
+                throw new InvalidConfigurationRuntimeException("Must be defined as use layout");
+            }
 
-			triaina.webview.annotation.WebViewBridgeResouce bridgeAnn = (triaina.webview.annotation.WebViewBridgeResouce) clazz
-					.getAnnotation(triaina.webview.annotation.WebViewBridgeResouce.class);
-			if (bridgeAnn == null)
-				throw new InvalidConfigurationRuntimeException(
-						"Must be defined as use layout");
+            triaina.webview.annotation.WebViewBridgeResouce bridgeAnn = (triaina.webview.annotation.WebViewBridgeResouce) clazz
+                    .getAnnotation(triaina.webview.annotation.WebViewBridgeResouce.class);
+            if (bridgeAnn == null)
+                throw new InvalidConfigurationRuntimeException("Must be defined as use layout");
 
-			config = new LayoutConfig(layoutAnn.value(), bridgeAnn.value());
-			mConfigCache.putLayoutConfig(clazz, config);
-		} else
-			Log.d(TAG, "Layout config from cache");
+            config = new LayoutConfig(layoutAnn.value(), bridgeAnn.value());
+            mConfigCache.putLayoutConfig(clazz, config);
+        } else
+            Log.d(TAG, "Layout config from cache");
 
-		return config;
-	}
+        return config;
+    }
 
-	private DomainConfig createDomainConfig(Class<?> clazz) {
-		DomainConfig config = mConfigCache.getDomainConfig(clazz);
+    private DomainConfig createDomainConfig(Class<?> clazz) {
+        DomainConfig config = mConfigCache.getDomainConfig(clazz);
 
-		if (config == null) {
-			Domain domainAnn = (Domain) clazz.getAnnotation(Domain.class);
-			if (domainAnn == null)
-				throw new InvalidConfigurationRuntimeException(
-						"Must be defined as access domain");
+        if (config == null) {
+            Domain domainAnn = (Domain) clazz.getAnnotation(Domain.class);
+            if (domainAnn == null)
+                throw new InvalidConfigurationRuntimeException("Must be defined as access domain");
 
-			config = new DomainConfig(domainAnn.value());
-		} else
-			Log.d(TAG, "Domain config from cache");
+            config = new DomainConfig(domainAnn.value());
+        } else
+            Log.d(TAG, "Domain config from cache");
 
-		return config;
-	}
-	
-	private boolean hasNoPause(Class<?> clazz) {
-	    return clazz.getAnnotation(NoPause.class) != null;
-	}
+        return config;
+    }
 
-	@Override
-	public void configure(WebViewBridge bridge) {
-		registerBridge(bridge, mContext);
-		registerBridge(bridge, new WebStatusBridge(bridge));
-		registerBridge(bridge, new NetHttpSendBridge(bridge));
-		registerBridge(bridge, new WiFiBridge(bridge));
-		registerBridge(bridge, new VibratorBridge());
-		registerBridge(bridge, new ToastBridge());
-		registerBridge(bridge, new AccelerometerBridge(bridge));
-		registerBridge(bridge, new NotificationBridge(bridge));
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-			registerBridge(bridge, new WiFiP2PBridge(bridge));
-	}
+    private boolean hasNoPause(Class<?> clazz) {
+        return clazz.getAnnotation(NoPause.class) != null;
+    }
 
-	@Override
-	public void registerBridge(WebViewBridge webViewBridge, Object bridgeObject) {
-		bridgeObject = mInjectorHelper.inject(mContext, bridgeObject);
+    @Override
+    public void configure(WebViewBridge bridge) {
+        registerBridge(bridge, mContext);
+        registerBridge(bridge, new WebStatusBridge(bridge));
+        registerBridge(bridge, new NetHttpSendBridge(bridge));
+        registerBridge(bridge, new WiFiBridge(bridge));
+        registerBridge(bridge, new VibratorBridge());
+        registerBridge(bridge, new ToastBridge());
+        registerBridge(bridge, new AccelerometerBridge(bridge));
+        registerBridge(bridge, new NotificationBridge(bridge));
 
-		Class<?> clazz = bridgeObject.getClass();
-		BridgeObjectConfig config = mConfigCache.getBridgeObjectConfig(clazz);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            registerBridge(bridge, new WiFiP2PBridge(bridge));
+    }
 
-		if (config == null) {
-			Log.d(TAG, "Miss cache bridge config");
+    @Override
+    public void registerBridge(WebViewBridge webViewBridge, Object bridgeObject) {
+        bridgeObject = inject(bridgeObject);
+        Class<?> clazz = bridgeObject.getClass();
+        BridgeConfig config = mConfigCache.getBridgeObjectConfig(clazz);
 
-			config = createBridgeConfig(bridgeObject);
-			mConfigCache.putBridgeObjectConfig(clazz, config);
-		} else
-			Log.d(TAG, "Bridge config from cache");
+        if (config == null) {
+            Log.d(TAG, "Miss cache bridge config");
 
-		webViewBridge.addBridgeObjectConfig(bridgeObject, config);
-	}
+            config = createBridgeConfig(bridgeObject);
+            mConfigCache.putBridgeObjectConfig(clazz, config);
+        } else
+            Log.d(TAG, "Bridge config from cache");
 
-	private BridgeObjectConfig createBridgeConfig(Object bridgeObject) {
-		Class<?> clazz = bridgeObject.getClass();
+        webViewBridge.addBridgeWithConfig(bridgeObject, config);
+    }
 
-		Method[] methods = clazz.getMethods();
-		BridgeObjectConfig configSet = new BridgeObjectConfig();
+    private BridgeConfig createBridgeConfig(Object bridgeObject) {
+        Class<?> clazz = bridgeObject.getClass();
 
-		for (Method method : methods) {
-			Bridge chAnn = method.getAnnotation(Bridge.class);
-			if (chAnn != null) {
-				if (validDestinationMethod(method)) {
-					Log.d(TAG, "dest:" + chAnn.value());
-					Log.d(TAG, "method:" + method.getName());
-					
-					BridgeMethodConfig config = new BridgeMethodConfig(
-							chAnn.value(), method);
-					configSet.add(config);
-				}
-			}
-		}
+        Method[] methods = clazz.getMethods();
+        BridgeConfig configSet = new BridgeConfig();
 
-		return configSet;
-	}
+        for (Method method : methods) {
+            Bridge chAnn = method.getAnnotation(Bridge.class);
+            if (chAnn != null) {
+                if (validDestinationMethod(method)) {
+                    Log.d(TAG, "dest:" + chAnn.value());
+                    Log.d(TAG, "method:" + method.getName());
 
-	private boolean validDestinationMethod(Method method) {
-		Class<?>[] argTypes = method.getParameterTypes();
+                    BridgeMethodConfig config = new BridgeMethodConfig(chAnn.value(), method);
+                    configSet.add(config);
+                }
+            }
+        }
 
-		switch (argTypes.length) {
-		case 2:
-			if (!ClassUtils.isImplement(argTypes[1], Callback.class))
-				return false;
-		case 1:
-			if (!ClassUtils.isImplement(argTypes[0], Params.class)
-					&& !ClassUtils.isImplement(argTypes[0], Callback.class))
-				return false;
-		case 0:
-			break;
-		default:
-			Log.w(TAG, "dest:" + method.getName() + " has illegal arguments");
-			return false;
-		}
+        return configSet;
+    }
 
-		return true;
-	}
+    private boolean validDestinationMethod(Method method) {
+        Class<?>[] argTypes = method.getParameterTypes();
 
-	@SuppressLint("SetJavaScriptEnabled")
-	public void configureSetting(WebViewBridge webViewBridge) {
-		WebSettings settings = webViewBridge.getSettings();
-		settings.setJavaScriptEnabled(true);
-		settings.setJavaScriptCanOpenWindowsAutomatically(true);
-		settings.setGeolocationEnabled(true);
-		settings.setDomStorageEnabled(true);
-		File databasePath = new File(mContext.getCacheDir(), "webstorage");
-		settings.setDatabasePath(databasePath.toString());
-		settings.setAppCacheEnabled(true);
-		settings.setAppCacheMaxSize(1024 * 1024 * 4);
-	}
+        switch (argTypes.length) {
+        case 2:
+            if (!ClassUtils.isImplement(argTypes[1], Callback.class))
+                return false;
+        case 1:
+            if (!ClassUtils.isImplement(argTypes[0], Params.class)
+                    && !ClassUtils.isImplement(argTypes[0], Callback.class))
+                return false;
+        case 0:
+            break;
+        default:
+            Log.w(TAG, "dest:" + method.getName() + " has illegal arguments");
+            return false;
+        }
 
-	// for test
-	public void setInjectorHelper(InjectorHelper injectorHelper) {
-		mInjectorHelper = injectorHelper;
-	}
+        return true;
+    }
 
-	// for test
-	public void setContext(Context context) {
-		mContext = context;
-	}
+    @SuppressLint("SetJavaScriptEnabled")
+    public void configureSetting(WebViewBridge webViewBridge) {
+        WebSettings settings = webViewBridge.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setGeolocationEnabled(true);
+        settings.setDomStorageEnabled(true);
 
-	// for test
-	public void setConfigCache(ConfigCache configCache) {
-		mConfigCache = configCache;
-	}
+        File databasePath = new File(mContext.getCacheDir(), "webstorage");
+        settings.setDatabasePath(databasePath.toString());
+
+        settings.setAppCacheEnabled(true);
+        settings.setAppCacheMaxSize(1024 * 1024 * 4);
+        settings.setAppCachePath(mContext.getCacheDir() + "/appcache");
+    }
+
+    protected <T> T inject(T obj) {
+        return mInjector.inject(obj);
+    }
+
+    // for test
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+    // for test
+    public void setConfigCache(ConfigCache configCache) {
+        mConfigCache = configCache;
+    }
 }

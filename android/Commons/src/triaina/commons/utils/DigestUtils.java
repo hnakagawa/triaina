@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import triaina.commons.exception.IORuntimeException;
 import triaina.commons.exception.UnsupportedRuntimeException;
 
-
 public final class DigestUtils {
     public static final String SHA256 = "SHA-256";
     public static final String SHA512 = "SHA-512";

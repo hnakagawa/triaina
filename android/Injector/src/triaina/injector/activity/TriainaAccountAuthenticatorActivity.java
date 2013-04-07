@@ -1,9 +1,6 @@
 package triaina.injector.activity;
 
-import android.accounts.AccountAuthenticatorActivity;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
+import javax.inject.Inject;
 
 import roboguice.activity.event.OnActivityResultEvent;
 import roboguice.activity.event.OnConfigurationChangedEvent;
@@ -23,13 +20,16 @@ import triaina.injector.TriainaInjectorFactory;
 import triaina.injector.activity.event.OnPostCreateEvent;
 import triaina.injector.activity.event.OnRestoreInstanceStateEvent;
 import triaina.injector.activity.event.OnSaveInstanceStateEvent;
-
-import javax.inject.Inject;
+import android.accounts.AccountAuthenticatorActivity;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 
 public class TriainaAccountAuthenticatorActivity extends AccountAuthenticatorActivity {
     protected EventManager mEventManager;
 
-    @Inject ContentViewListener ignored; // BUG find a better place to put this
+    @Inject
+    ContentViewListener ignored; // BUG find a better place to put this
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,13 +99,13 @@ public class TriainaAccountAuthenticatorActivity extends AccountAuthenticatorAct
     }
 
     @Override
-    protected void onSaveInstanceState (final Bundle outState) {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         mEventManager.fire(new OnSaveInstanceStateEvent(outState));
     }
 
     @Override
-    protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mEventManager.fire(new OnRestoreInstanceStateEvent(savedInstanceState));
     }

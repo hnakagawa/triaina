@@ -16,7 +16,6 @@ import triaina.commons.exception.InvocationRuntimeException;
 import triaina.commons.exception.NotFoundRuntimeException;
 import triaina.commons.exception.SecurityRuntimeException;
 
-
 public final class ClassUtils {
 
     private ClassUtils() {
@@ -47,8 +46,7 @@ public final class ClassUtils {
         }
     }
 
-    public static <T> Constructor<T> getConstructor(Class<T> clazz,
-            Class<?>[] paramTypes) {
+    public static <T> Constructor<T> getConstructor(Class<T> clazz, Class<?>[] paramTypes) {
         try {
             return clazz.getConstructor(paramTypes);
         } catch (SecurityException exp) {

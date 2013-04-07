@@ -10,39 +10,37 @@ import triaina.commons.utils.CloseableUtils;
 import triaina.commons.utils.ZipUtils;
 
 public class ZipUtilsTest extends AndroidTestCase {
-	private File mTestZip;
+    private File mTestZip;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
 
-		ZipOutputStream out = null;
-		try {
-			mTestZip = new File(getContext().getCacheDir(), "test.zip");
-			out = new ZipOutputStream(new FileOutputStream(mTestZip));
-			out.setComment("aaa");
-			out.putNextEntry(new ZipEntry("text.txt"));
-			out.write("bbb".getBytes());
-		} finally {
-			CloseableUtils.close(out);
-		}
-	}
+        ZipOutputStream out = null;
+        try {
+            mTestZip = new File(getContext().getCacheDir(), "test.zip");
+            out = new ZipOutputStream(new FileOutputStream(mTestZip));
+            out.setComment("aaa");
+            out.putNextEntry(new ZipEntry("text.txt"));
+            out.write("bbb".getBytes());
+        } finally {
+            CloseableUtils.close(out);
+        }
+    }
 
-	@Override
-	protected void tearDown() throws Exception {
-		mTestZip.delete();
-		super.tearDown();
-	}
+    @Override
+    protected void tearDown() throws Exception {
+        mTestZip.delete();
+        super.tearDown();
+    }
 
-	public void testReadCommentString() {
-		String comment = ZipUtils.readComment(getContext().getCacheDir() + "/"
-		        + "test.zip");
-		assertEquals("aaa", comment);
-	}
+    public void testReadCommentString() {
+        String comment = ZipUtils.readComment(getContext().getCacheDir() + "/" + "test.zip");
+        assertEquals("aaa", comment);
+    }
 
-	public void testEndSignatureIndex() {
-		int index = ZipUtils.endSignatureIndex(getContext().getCacheDir() + "/"
-		        + "test.zip");
-		assertEquals(0x71, index);
-	}
+    public void testEndSignatureIndex() {
+        int index = ZipUtils.endSignatureIndex(getContext().getCacheDir() + "/" + "test.zip");
+        assertEquals(0x71, index);
+    }
 }

@@ -17,7 +17,7 @@ import triaina.commons.utils.FloatUtils;
 import triaina.commons.utils.JSONObjectUtils;
 import triaina.webview.bridge.BridgeLifecyclable;
 import triaina.webview.config.BridgeMethodConfig;
-import triaina.webview.config.BridgeObjectConfig;
+import triaina.webview.config.BridgeConfig;
 import triaina.webview.entity.Error;
 import triaina.webview.entity.Params;
 import triaina.webview.entity.Result;
@@ -39,7 +39,7 @@ public class DeviceBridgeProxy {
 
     private Handler mHandler;
 
-    private BridgeObjectConfig mConfigSet = new BridgeObjectConfig();
+    private BridgeConfig mConfigSet = new BridgeConfig();
     private Map<String, Object> mReceiverMap = new HashMap<String, Object>();
 
     public DeviceBridgeProxy(WebViewBridge webViewBridge, Handler handler) {
@@ -47,7 +47,7 @@ public class DeviceBridgeProxy {
         mHandler = handler;
     }
 
-    public void addBridgeObjectConfig(Object bridgeObject, BridgeObjectConfig config) {
+    public void addBridgeObjectConfig(Object bridgeObject, BridgeConfig config) {
         mConfigSet.add(config);
 
         Collection<BridgeMethodConfig> methodConfigs = config.getMethodConfigs();
@@ -55,7 +55,7 @@ public class DeviceBridgeProxy {
             mReceiverMap.put(methodConfig.getDest(), bridgeObject);
     }
 
-    public BridgeObjectConfig getBridgeConfigSet() {
+    public BridgeConfig getBridgeConfigSet() {
         return mConfigSet;
     }
 
@@ -63,7 +63,7 @@ public class DeviceBridgeProxy {
         Collection<Object> bridges = mReceiverMap.values();
         for (Object bridge : bridges) {
             if (bridge instanceof BridgeLifecyclable)
-                ((BridgeLifecyclable)bridge).onResume();
+                ((BridgeLifecyclable) bridge).onResume();
         }
     }
 
@@ -71,7 +71,7 @@ public class DeviceBridgeProxy {
         Collection<Object> bridges = mReceiverMap.values();
         for (Object bridge : bridges) {
             if (bridge instanceof BridgeLifecyclable)
-                ((BridgeLifecyclable)bridge).onPause();
+                ((BridgeLifecyclable) bridge).onPause();
         }
     }
 
@@ -80,7 +80,7 @@ public class DeviceBridgeProxy {
         for (Object bridge : bridges) {
             try {
                 if (bridge instanceof BridgeLifecyclable)
-                    ((BridgeLifecyclable)bridge).onDestroy();
+                    ((BridgeLifecyclable) bridge).onDestroy();
             } catch (Exception exp) {
                 Log.w(TAG, exp.getMessage() + "", exp);
             }

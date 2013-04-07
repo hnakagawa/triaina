@@ -8,13 +8,12 @@ import java.lang.annotation.Target;
 
 import triaina.commons.workerservice.Worker;
 
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Assign {
-	@SuppressWarnings("rawtypes")
-	Class<? extends Worker> worker();
-	
-	@SuppressWarnings("rawtypes")
-	Class<? extends Worker>[] decorators() default {};
+    @SuppressWarnings("rawtypes")
+    Class<? extends Worker> worker();
+
+    @SuppressWarnings("rawtypes")
+    Class<? extends Worker>[] decorators() default {};
 }

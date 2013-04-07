@@ -9,8 +9,7 @@ public final class SystemUtils {
     private SystemUtils() {
     }
 
-    public static void launchExternalBrowser(final Context context,
-            final Uri uri) {
+    public static void launchExternalBrowser(final Context context, final Uri uri) {
         new Thread(new Runnable() {
             @Override
             public void run() {

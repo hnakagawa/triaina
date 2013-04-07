@@ -8,7 +8,6 @@ import triaina.commons.exception.IllegalArgumentRuntimeException;
 
 import android.util.Log;
 
-
 public final class FieldUtils {
     private static final String TAG = FieldUtils.class.getCanonicalName();
 

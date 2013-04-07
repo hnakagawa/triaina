@@ -15,13 +15,16 @@ import android.provider.MediaStore;
 
 public final class FileUtils {
 
-    private FileUtils() {}
+    private FileUtils() {
+    }
 
     /**
      * Copy a file from source to destination
      * 
-     * @param srcPath the source
-     * @param destPath the destination
+     * @param srcPath
+     *            the source
+     * @param destPath
+     *            the destination
      * @return the number of bytes that were transferred
      * @throws IOException
      */
@@ -41,13 +44,14 @@ public final class FileUtils {
     /**
      * Transfer between streams
      * 
-     * @param is the input stream
-     * @param os the output stream
+     * @param is
+     *            the input stream
+     * @param os
+     *            the output stream
      * @return the number of bytes that were transferred
      * @throws IOException
      */
-    public static long copyFileStream(FileInputStream is, FileOutputStream os)
-            throws IOException {
+    public static long copyFileStream(FileInputStream is, FileOutputStream os) throws IOException {
         FileChannel srcChannel = null;
         FileChannel destChannel = null;
         try {
@@ -78,9 +82,11 @@ public final class FileUtils {
 
     /**
      * Retrieve real filename from Content Provider.
-     *
-     * @param contentUri Uri to be checked.
-     * @return Full path filename of the resource pointed by contentUri if look up successfully finished. null otherwise.
+     * 
+     * @param contentUri
+     *            Uri to be checked.
+     * @return Full path filename of the resource pointed by contentUri if look
+     *         up successfully finished. null otherwise.
      */
     public static String getPathFromUri(ContentResolver resolver, Uri contentUri) {
         final String dataColumn = MediaStore.MediaColumns.DATA;

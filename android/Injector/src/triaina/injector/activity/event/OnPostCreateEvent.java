@@ -8,11 +8,11 @@ import android.os.Bundle;
 public class OnPostCreateEvent {
     private final Bundle savedInstanceState;
 
-    public OnPostCreateEvent (final Bundle savedInstanceState) {
+    public OnPostCreateEvent(final Bundle savedInstanceState) {
         this.savedInstanceState = savedInstanceState;
     }
 
-    public Bundle getSavedInstanceState () {
+    public Bundle getSavedInstanceState() {
         return savedInstanceState;
     }
 }

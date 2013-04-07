@@ -6,43 +6,43 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class WiFiP2PDiscoverParams implements Params {
-	private WiFiP2PDeviceParams[] mDevices;
+    private WiFiP2PDeviceParams[] mDevices;
 
-	public WiFiP2PDiscoverParams() {
-	}
+    public WiFiP2PDiscoverParams() {
+    }
 
-	public WiFiP2PDiscoverParams(Parcel src) {
-		mDevices = (WiFiP2PDeviceParams[]) src.readArray(getClass().getClassLoader());
-	}
-	
-	public void setDevices(WiFiP2PDeviceParams[] devices) {
-		mDevices = devices;
-	}
+    public WiFiP2PDiscoverParams(Parcel src) {
+        mDevices = (WiFiP2PDeviceParams[]) src.readArray(getClass().getClassLoader());
+    }
 
-	public WiFiP2PDeviceParams[] getDevices() {
-		return mDevices;
-	}
+    public void setDevices(WiFiP2PDeviceParams[] devices) {
+        mDevices = devices;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeArray(mDevices);
-	}
+    public WiFiP2PDeviceParams[] getDevices() {
+        return mDevices;
+    }
 
-	@Exclude
-	public static final Parcelable.Creator<WiFiP2PDiscoverParams> CREATOR = new Parcelable.Creator<WiFiP2PDiscoverParams>() {
-		@Override
-		public WiFiP2PDiscoverParams createFromParcel(Parcel source) {
-			return new WiFiP2PDiscoverParams(source);
-		}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeArray(mDevices);
+    }
 
-		@Override
-		public WiFiP2PDiscoverParams[] newArray(int size) {
-			return new WiFiP2PDiscoverParams[size];
-		}
-	};
+    @Exclude
+    public static final Parcelable.Creator<WiFiP2PDiscoverParams> CREATOR = new Parcelable.Creator<WiFiP2PDiscoverParams>() {
+        @Override
+        public WiFiP2PDiscoverParams createFromParcel(Parcel source) {
+            return new WiFiP2PDiscoverParams(source);
+        }
 
-	@Override
-	public int describeContents() {
-		return 0;
-	}
+        @Override
+        public WiFiP2PDiscoverParams[] newArray(int size) {
+            return new WiFiP2PDiscoverParams[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }

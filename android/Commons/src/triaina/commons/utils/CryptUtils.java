@@ -7,7 +7,6 @@ import javax.crypto.Cipher;
 
 import triaina.commons.exception.SecurityRuntimeException;
 
-
 public final class CryptUtils {
     public static final String RSA_ECB_PKCS1_MODE = "RSA/ECB/PKCS1PADDING";
 

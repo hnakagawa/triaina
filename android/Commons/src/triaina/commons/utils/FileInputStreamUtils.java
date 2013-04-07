@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import triaina.commons.exception.IORuntimeException;
 
-
 public final class FileInputStreamUtils {
 
     public static FileInputStream open(File file) {

@@ -1,6 +1,6 @@
 package triaina.webview;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import triaina.commons.utils.SystemUtils;
 import triaina.injector.TriainaEnvironment;
@@ -29,10 +29,10 @@ public abstract class AbstractWebViewBridgeActivity extends TriainaActivity {
 
     @Inject
     private WebViewBridgeConfigurator mConfigurator;
-    
-	@Inject
-	private WebViewRestoreManager mRestoreManager;
-    
+
+    @Inject
+    private WebViewRestoreManager mRestoreManager;
+
     @Inject
     private TriainaEnvironment mEnvironment;
 
@@ -70,7 +70,7 @@ public abstract class AbstractWebViewBridgeActivity extends TriainaActivity {
     public void doOpenNewWindow(NewWindowParams params) {
         startActivityForResult(this, getClass(), params.getUrl());
     }
-    
+
     @Bridge("system.net.browser.open")
     public void doNetBrowserOpen(NetBrowserOpenParams params) {
         SystemUtils.launchExternalBrowser(this, Uri.parse(params.getUrl()));
@@ -91,7 +91,7 @@ public abstract class AbstractWebViewBridgeActivity extends TriainaActivity {
         loadViews();
         loadUrl(savedInstanceState);
     }
-    
+
     protected void configureSettings() {
         mConfigurator.configureSetting(mWebViewBridge);
     }
@@ -108,9 +108,9 @@ public abstract class AbstractWebViewBridgeActivity extends TriainaActivity {
         if (mRestoreManager.restoreWebView(mWebViewBridge, savedInstanceState))
             return;
         String url = getIntent().getStringExtra(EXTRA_URL);
-        getWebViewBridge().loadUrl(url);        
+        getWebViewBridge().loadUrl(url);
     }
-    
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK) && getWebViewBridge().canGoBack()) {
@@ -124,9 +124,9 @@ public abstract class AbstractWebViewBridgeActivity extends TriainaActivity {
         super.onSaveInstanceState(outState);
         storeWebView(outState);
     }
-    
+
     protected void storeWebView(Bundle outState) {
-        mRestoreManager.storeWebView(mWebViewBridge, outState, getTaskId());        
+        mRestoreManager.storeWebView(mWebViewBridge, outState, getTaskId());
     }
 
     @Override

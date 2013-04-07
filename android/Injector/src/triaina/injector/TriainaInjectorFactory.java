@@ -26,20 +26,20 @@ import com.google.inject.spi.StaticInjectionRequest;
 public final class TriainaInjectorFactory {
     public static final Stage DEFAULT_STAGE = Stage.PRODUCTION;
 
-    protected static WeakHashMap<Application, Injector> sInjectors = new WeakHashMap<Application, Injector>();
-    protected static WeakHashMap<Application, ResourceListener> sResourceListeners = new WeakHashMap<Application, ResourceListener>();
-    protected static WeakHashMap<Application, ViewListener> sViewListeners = new WeakHashMap<Application, ViewListener>();
+    private static WeakHashMap<Application, Injector> sBaseInjectors = new WeakHashMap<Application, Injector>();
+    private static WeakHashMap<Context, TriainaInjector> sInjectors = new WeakHashMap<Context, TriainaInjector>();
+    private static WeakHashMap<Application, ResourceListener> sResourceListeners = new WeakHashMap<Application, ResourceListener>();
+    private static WeakHashMap<Application, ViewListener> sViewListeners = new WeakHashMap<Application, ViewListener>();
 
     private TriainaInjectorFactory() {
     }
 
     public static Injector getBaseApplicationInjector(Application application) {
         synchronized (TriainaInjectorFactory.class) {
-            Injector injector = sInjectors.get(application);
-            if (injector == null) {
+            Injector injector = sBaseInjectors.get(application);
+            if (injector == null)
                 injector = initialize(application, DEFAULT_STAGE);
-                sInjectors.put(application, injector);
-            }
+
             return injector;
         }
     }
@@ -57,7 +57,7 @@ public final class TriainaInjectorFactory {
 
         synchronized (TriainaInjectorFactory.class) {
             final Injector injector = Guice.createInjector(stage, modules);
-            sInjectors.put(application, injector);
+            sBaseInjectors.put(application, injector);
             return injector;
         }
     }
@@ -88,16 +88,21 @@ public final class TriainaInjectorFactory {
                 throw new CommonRuntimeException(exp);
             }
 
-            final Injector injector = initialize(application, stage, modules.toArray(new Module[modules.size()]));
-            sInjectors.put(application, injector);
-            return injector;
+            return initialize(application, stage, modules.toArray(new Module[modules.size()]));
         }
     }
 
     public static TriainaInjector getInjector(Context context) {
         final Application application = (Application) context.getApplicationContext();
-        return new TriainaInjectorImpl(new ContextScopedRoboInjector(context, getBaseApplicationInjector(application),
-                getViewListener(application)));
+        synchronized (TriainaInjectorFactory.class) {
+            TriainaInjector injector = sInjectors.get(context);
+            if (injector == null) {
+                injector = new TriainaInjectorImpl(new ContextScopedRoboInjector(context,
+                        getBaseApplicationInjector(application), getViewListener(application)));
+                sInjectors.put(context, injector);
+            }
+            return injector;
+        }
     }
 
     public static <T> T injectMembers(Context context, T obj) {
@@ -135,9 +140,12 @@ public final class TriainaInjectorFactory {
     public static void destroyInjector(Context context) {
         synchronized (TriainaInjectorFactory.class) {
             final TriainaInjector injector = getInjector(context);
+            if (injector == null)
+                return;
+
+            sInjectors.remove(context);
             injector.getInstance(EventManager.class).destroy();
             injector.getInstance(ContextScope.class).destroy(context);
-            sInjectors.remove(context);
         }
     }
 }

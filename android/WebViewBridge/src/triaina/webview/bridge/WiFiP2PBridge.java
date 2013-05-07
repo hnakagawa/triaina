@@ -7,6 +7,7 @@ import triaina.webview.annotation.Bridge;
 import triaina.webview.entity.device.WiFiP2PEnableParams;
 import triaina.webview.receiver.WiFiDirectBroadcastReceiver;
 
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -15,6 +16,7 @@ import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.os.Build;
 import android.util.Log;
 
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class WiFiP2PBridge implements BridgeLifecyclable {
     private static final String TAG = WiFiP2PBridge.class.getSimpleName();
     @Inject

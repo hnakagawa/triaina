@@ -5,6 +5,7 @@ import java.util.Collection;
 import triaina.webview.WebViewBridge;
 import triaina.webview.entity.web.WiFiP2PDeviceParams;
 import triaina.webview.entity.web.WiFiP2PDiscoverParams;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 
 import android.content.Context;
@@ -14,7 +15,9 @@ import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
+import android.os.Build;
 
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class WiFiDirectBroadcastReceiver extends BroadcastReceiver implements PeerListListener {
     @SuppressWarnings("unused")
     private static final String TAG = WiFiDirectBroadcastReceiver.class.getSimpleName();
